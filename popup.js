@@ -2,7 +2,7 @@
 function addLoadDataButtonListener() {
 	const loadDataButton = document.getElementById('loadDataButton');
 	if (loadDataButton) {
-		// loadDataButton.addEventListener('click', function () {
+		document.addEventListener('DOMContentLoaded', function () {
 			// Retrieve existing data from chrome.storage
 			chrome.storage.local.get(['adMuteData'], function (result) {
 				const adMuteData = result.adMuteData || {};
@@ -36,7 +36,7 @@ function addLoadDataButtonListener() {
 					$('#adMuteTable').DataTable().draw();
 				}
 			});
-		// });
+		});
 	}
 }
 

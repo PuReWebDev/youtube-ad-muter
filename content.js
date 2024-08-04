@@ -40,22 +40,26 @@ function storeAdMuteInfo() {
     const timestamp = new Date().toISOString();
     const pageTitle = document.title;
 
-    // Retrieve existing data from local storage
-    let adMuteData = JSON.parse(localStorage.getItem('adMuteData')) || {};
+    // Retrieve existing data from chrome.storage
+    chrome.storage.local.get(['adMuteData'], function(result) {
+        let adMuteData = result.adMuteData || {};
 
-    // Initialize or update the count for the current URL
-    if (!adMuteData[url]) {
-        adMuteData[url] = {
-            count: 0,
-            entries: []
-        };
-    }
+        // Initialize or update the count for the current URL
+        if (!adMuteData[url]) {
+            adMuteData[url] = {
+                count: 0,
+                entries: []
+            };
+        }
 
-    adMuteData[url].count += 1;
-    adMuteData[url].entries.push({ timestamp, pageTitle });
+        adMuteData[url].count += 1;
+        adMuteData[url].entries.push({ timestamp, pageTitle });
 
-    // Store the updated data back in local storage
-    localStorage.setItem('adMuteData', JSON.stringify(adMuteData));
+        // Store the updated data back in chrome.storage
+        chrome.storage.local.set({ adMuteData: adMuteData }, function() {
+            console.log('Ad mute data is saved to chrome.storage');
+        });
+    });
 }
 
 // Check for ads every second

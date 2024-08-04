@@ -30,6 +30,8 @@ function checkForAds() {
         skipButton.click();
         if (video) video.muted = false;
     }
+
+    hideClarifyBox();
 }
 
 /**
@@ -41,7 +43,7 @@ function storeAdMuteInfo() {
     const pageTitle = document.title;
 
     // Retrieve existing data from chrome.storage
-    chrome.storage.local.get(['adMuteData'], function(result) {
+    chrome.storage.local.get(['adMuteData'], function (result) {
         let adMuteData = result.adMuteData || {};
 
         // Initialize or update the count for the current URL
@@ -56,11 +58,56 @@ function storeAdMuteInfo() {
         adMuteData[url].entries.push({ timestamp, pageTitle });
 
         // Store the updated data back in chrome.storage
-        chrome.storage.local.set({ adMuteData: adMuteData }, function() {
+        chrome.storage.local.set({ adMuteData: adMuteData }, function () {
             console.log('Ad mute data is saved to chrome.storage');
         });
+    });
+
+    // Retrieve existing count from chrome.storage
+    chrome.storage.local.get(['adMuteCount'], function (result) {
+        let adMuteCount = result.adMuteCount || 0;
+        adMuteCount += 1;
+
+        chrome.storage.local.set({ adMuteCount: adMuteCount }, function () {
+            // Update the badge text with the new count
+            if (chrome.action) {
+                chrome.action.setBadgeTextColor({ color: "gray" });
+                chrome.action.setBadgeText({ text: adMuteCount.toString() });
+                console.log('Ad mute count is saved to chrome.storage via action');
+            } else if (chrome.browserAction) {
+                chrome.browserAction.setBadgeText({ text: adMuteCount.toString() });
+                // browser.browserAction.setBadgeText({ text: "1234" });
+                chrome.browserAction.setBadgeTextColor({ color: "red" });
+                console.log('Ad mute count is saved to chrome.storage via browserAction');
+            }
+
+        });
+
+
     });
 }
 
 // Check for ads every second
 setInterval(checkForAds, 1000);
+
+function initializeBadgeText() {
+    chrome.storage.local.get(['adMuteCount'], function (result) {
+        let adMuteCount = result.adMuteCount || 0;
+        if (chrome.action) {
+            chrome.action.setBadgeText({ text: adMuteCount.toString() });
+        }
+    });
+}
+
+// Call the function to initialize the badge text
+initializeBadgeText();
+
+/**
+ * Function to hide the clarify box if it exists
+ */
+function hideClarifyBox() {
+    const clarifyBox = document.getElementById('clarify-box');
+    if (clarifyBox) {
+        clarifyBox.style.display = 'none';
+    }
+}

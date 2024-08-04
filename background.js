@@ -16,3 +16,9 @@ chrome.runtime.onInstalled.addListener(() => {
 	}]);
   });
 });
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    if (message.action === 'updateBadge') {
+        chrome.action.setBadgeText({ text: message.count.toString() });
+    }
+});

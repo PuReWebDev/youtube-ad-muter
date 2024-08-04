@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html>
-  <head>
-	<title>YouTube Ad Muter</title>
-  </head>
-  <body>
-	<div id="root"></div>
-	<script src="popup.js"></script>
-  </body>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Ad Muter Info</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="libs/bootstrap.min.css">
+  <!-- DataTables CSS -->
+  <link rel="stylesheet" href="libs/jquery.dataTables.min.css">
+</head>
+
+<body>
+  <div class="container mt-3">
+    <h2>YouTube Ad Muter Info</h2>
+    <div id="root"></div>
+    <table id="adMuteTable" class="display" style="width:100%">
+      <thead>
+        <tr>
+          <th>URL</th>
+          <th>Timestamp</th>
+          <th>Page Title</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be populated here by JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- jQuery -->
+  <script src="libs/jquery-3.5.1.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="libs/bootstrap.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="libs/jquery.dataTables.min.js"></script>
+  <!-- React and ReactDOM -->
+  <script src="libs/react.development.js"></script>
+  <script src="libs/react-dom.development.js"></script>
+  <!-- Custom JS -->
+  <script type="module" src="popup.js"></script>
+</body>
+
 </html>

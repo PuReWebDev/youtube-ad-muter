@@ -2,19 +2,49 @@
   "manifest_version": 3,
   "name": "YouTube Ad Muter",
   "version": "1.0",
-  "description": "Mutes YouTube ads and skips them when possible.",
+  "description": "Automatically mutes YouTube ads and skips them when possible.",
   "author": "purewebdev@gmail.com",
-  "permissions": ["tabs", "activeTab", "declarativeContent"],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "declarativeContent",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*"],
       "js": ["content.js"]
     }
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "action": {
-    "default_popup": "popup.html"
-  }
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "libs/jquery-3.5.1.min.js",
+        "libs/bootstrap.min.js",
+        "libs/jquery.dataTables.min.js",
+        "libs/react.development.js",
+        "libs/react-dom.development.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "homepage_url": "https://github.com/PuReWebDev/youtube-ad-muter"
 }

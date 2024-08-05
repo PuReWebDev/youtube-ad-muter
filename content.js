@@ -79,6 +79,10 @@ function storeAdMuteInfo() {
                 // browser.browserAction.setBadgeText({ text: "1234" });
                 chrome.browserAction.setBadgeTextColor({ color: "red" });
                 console.log('Ad mute count is saved to chrome.storage via browserAction');
+            } else if (chrome.pageAction) {
+                chrome.pageAction.setBadgeText({ text: adMuteCount.toString() });
+                chrome.pageAction.setBadgeTextColor({ color: "blue" });
+                console.log('Ad mute count is saved to chrome.storage via pageAction');
             }
 
         });

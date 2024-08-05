@@ -15,9 +15,10 @@ function addLoadDataButtonListener() {
 					const { count, entries } = adMuteData[url];
 					entries.forEach(entry => {
 						const row = document.createElement('tr');
+						const readableTimestamp = new Date(entry.timestamp).toLocaleString();
 						row.innerHTML = `
 				<td>${url}</td>
-				<td>${entry.timestamp}</td>
+				<td>${readableTimestamp}</td>
 				<td>${entry.pageTitle}</td>
 				<td>${count}</td>
 			  `;

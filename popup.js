@@ -25,12 +25,12 @@ function addLoadDataButtonListener() {
 					});
 				});
 
-				  // Check if DataTable is already initialized
+				// Check if DataTable is already initialized
 				if (!$.fn.DataTable.isDataTable('#adMuteTable')) {
 					// Initialize DataTable
 					$('#adMuteTable').DataTable({
-					"pageLength": 50,
-					"order": [[1, "desc"]] // Sort by the second column (timestamp) in descending order
+						"pageLength": 10,
+						"order": [[1, "desc"]] // Sort by the second column (timestamp) in descending order
 					});
 				} else {
 					// Refresh DataTable

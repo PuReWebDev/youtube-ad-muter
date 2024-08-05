@@ -63,33 +63,6 @@ function storeAdMuteInfo() {
                 console.log('Ad mute data is saved to chrome.storage');
             });
         });
-    
-        // Retrieve existing count from chrome.storage
-        chrome.storage.local.get(['adMuteCount'], function (result) {
-            let adMuteCount = result.adMuteCount || 0;
-            adMuteCount += 1;
-
-            chrome.storage.local.set({ adMuteCount: adMuteCount }, function () {
-                // Update the badge text with the new count
-                if (chrome.action) {
-                    chrome.action.setBadgeTextColor({ color: "gray" });
-                    chrome.action.setBadgeText({ text: adMuteCount.toString() });
-                    console.log('Ad mute count is saved to chrome.storage via action');
-                } else if (chrome.browserAction) {
-                    chrome.browserAction.setBadgeText({ text: adMuteCount.toString() });
-                    // browser.browserAction.setBadgeText({ text: "1234" });
-                    chrome.browserAction.setBadgeTextColor({ color: "red" });
-                    console.log('Ad mute count is saved to chrome.storage via browserAction');
-                } else if (chrome.pageAction) {
-                    chrome.pageAction.setBadgeText({ text: adMuteCount.toString() });
-                    chrome.pageAction.setBadgeTextColor({ color: "blue" });
-                    console.log('Ad mute count is saved to chrome.storage via pageAction');
-                }
-
-            });
-
-
-        });
     } catch (error) {
         console.error('Error in storeAdMuteInfo: ', error);
     }
@@ -97,18 +70,6 @@ function storeAdMuteInfo() {
 
 // Check for ads every second
 setInterval(checkForAds, 1000);
-
-function initializeBadgeText() {
-    chrome.storage.local.get(['adMuteCount'], function (result) {
-        let adMuteCount = result.adMuteCount || 0;
-        if (chrome.action) {
-            chrome.action.setBadgeText({ text: adMuteCount.toString() });
-        }
-    });
-}
-
-// Call the function to initialize the badge text
-initializeBadgeText();
 
 /**
  * Function to hide the clarify box if it exists

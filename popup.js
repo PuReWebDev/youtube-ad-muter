@@ -29,7 +29,8 @@ function addLoadDataButtonListener() {
 				if (!$.fn.DataTable.isDataTable('#adMuteTable')) {
 					// Initialize DataTable
 					$('#adMuteTable').DataTable({
-					"pageLength": 50
+					"pageLength": 50,
+					"order": [[1, "desc"]] // Sort by the second column (timestamp) in descending order
 					});
 				} else {
 					// Refresh DataTable

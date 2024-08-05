@@ -1,5 +1,4 @@
 // Function to add event listener to the button
-// Function to add event listener to the button
 function addLoadDataButtonListener() {
     const loadDataButton = document.getElementById('loadDataButton');
     if (loadDataButton) {

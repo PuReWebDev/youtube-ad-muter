@@ -13,6 +13,7 @@ function checkForAds() {
     const video = document.querySelector('video');
     const adOverlay = document.querySelector('.ad-showing');
     const skipButton = document.querySelector('.ytp-skip-ad-button');
+    const enforcementMessage = document.querySelector('.style-scope.ytd-enforcement-message-view-model');
 
     if (adOverlay) {
         // Mute the video if an ad is playing
@@ -26,9 +27,17 @@ function checkForAds() {
     }
 
     if (skipButton) {
-        // Click the skip button if present
-        skipButton.click();
-        if (video) video.muted = false;
+        // Add a random delay between 1-3 seconds before clicking the skip button
+        const delay = Math.random() * 2000 + 1000; // Random delay between 1000ms (1s) and 3000ms (3s)
+        setTimeout(() => {
+            skipButton.click();
+            if (video) video.muted = false;
+        }, delay);
+    }
+
+    if (enforcementMessage && enforcementMessage.style.display !== 'none') {
+        // Refresh the page if the enforcement message is displayed
+        location.reload();
     }
 
     hideClarifyBox();

@@ -1,46 +1,32 @@
 // Function to add event listener to the button
+// Function to add event listener to the button
 function addLoadDataButtonListener() {
-	const loadDataButton = document.getElementById('loadDataButton');
-	if (loadDataButton) {
-		document.addEventListener('DOMContentLoaded', function () {
-			// Retrieve existing data from chrome.storage
-			chrome.storage.local.get(['adMuteData'], function (result) {
-				const adMuteData = result.adMuteData || {};
-				const tableBody = document.querySelector('#adMuteTable tbody');
+    const loadDataButton = document.getElementById('loadDataButton');
+    if (loadDataButton) {
+        document.addEventListener('DOMContentLoaded', function () {
+            // Retrieve existing data from chrome.storage
+            chrome.storage.local.get(['adMuteData'], function (result) {
+                const adMuteData = result.adMuteData || {};
+                let totalCount = 0;
 
-				// Clear existing table data
-				tableBody.innerHTML = '';
+                // Calculate the total count of entries
+                Object.keys(adMuteData).forEach(url => {
+                    const { count } = adMuteData[url];
+                    totalCount += count;
+                });
 
-				Object.keys(adMuteData).forEach(url => {
-					const { count, entries } = adMuteData[url];
-					entries.forEach(entry => {
-						const row = document.createElement('tr');
-						const readableTimestamp = new Date(entry.timestamp).toLocaleString();
-						row.innerHTML = `
-				<td>${url}</td>
-				<td>${readableTimestamp}</td>
-				<td>${entry.pageTitle}</td>
-				<td>${count}</td>
-			  `;
-						tableBody.appendChild(row);
-					});
-				});
-
-				// Check if DataTable is already initialized
-				if (!$.fn.DataTable.isDataTable('#adMuteTable')) {
-					// Initialize DataTable
-					$('#adMuteTable').DataTable({
-						"pageLength": 10,
-						"order": [[1, "desc"]] // Sort by the second column (timestamp) in descending order
-					});
-				} else {
-					// Refresh DataTable
-					$('#adMuteTable').DataTable().draw();
-				}
-			});
-		});
-	}
+                // Display the total count in the popup
+                const totalCountElement = document.getElementById('totalCount');
+                if (totalCountElement) {
+                    totalCountElement.textContent = `Total Ad Mutes: ${totalCount}`;
+                }
+            });
+        });
+    }
 }
+
+// Call the function to add the event listener
+addLoadDataButtonListener();
 
 // Create a MutationObserver to watch for changes in the DOM
 const observer = new MutationObserver((mutationsList, observer) => {
@@ -55,4 +41,4 @@ const observer = new MutationObserver((mutationsList, observer) => {
 observer.observe(document.body, { childList: true, subtree: true });
 
 // Also call the function directly in case the button is already present
-addLoadDataButtonListener();
+// addLoadDataButtonListener();

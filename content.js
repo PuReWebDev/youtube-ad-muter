@@ -16,7 +16,7 @@ function checkForAds() {
     const enforcementMessage = document.querySelector('.style-scope.ytd-enforcement-message-view-model');
 
     if (adOverlay) {
-        // Mute the video if an ad is playing
+        // Mute the audio when the user selected video is interrupted
         if (video) {
             video.muted = true;
             storeAdMuteInfo();
@@ -28,8 +28,10 @@ function checkForAds() {
 
     if (skipButton) {
         // Add a random delay between 1-3 seconds before clicking the skip button
+        // Needed because of inappropriately being flagged as an ad blocker.
         const delay = Math.random() * 2000 + 1000; // Random delay between 1000ms (1s) and 3000ms (3s)
         setTimeout(() => {
+            // If YouTube presents skip button, use opts to use it. This is preference, not an adblocker.
             skipButton.click();
             if (video) video.muted = false;
         }, delay);

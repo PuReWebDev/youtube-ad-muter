@@ -38,8 +38,16 @@ function checkForAds() {
     }
 
     if (enforcementMessage && enforcementMessage.style.display !== 'none') {
-        // Refresh the page if the enforcement message is displayed
-        location.reload();
+        // Redirect to the video at the current time if the enforcement message is displayed
+        if (video) {
+            const currentTime = video.currentTime;
+            const videoUrl = new URL(window.location.href);
+            videoUrl.searchParams.set('t', `${Math.floor(currentTime)}s`);
+            window.location.href = videoUrl.toString();
+        } else {
+            // Refresh the page if the enforcement message is displayed
+            location.reload();
+        }
     }
 
     hideClarifyBox();

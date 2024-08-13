@@ -41,9 +41,14 @@ function checkForAds() {
         // Redirect to the video at the current time if the enforcement message is displayed
         if (video) {
             const currentTime = video.currentTime;
-            const videoUrl = new URL(window.location.href);
-            videoUrl.searchParams.set('t', `${Math.floor(currentTime)}s`);
-            window.location.href = videoUrl.toString();
+            if (currentTime > 0) {
+                const videoUrl = new URL(window.location.href);
+                videoUrl.searchParams.set('t', `${Math.floor(currentTime)}s`);
+                window.location.href = videoUrl.toString();
+            } else {
+                // Refresh the page if the current time is 0
+                location.reload();
+            }
         } else {
             // Refresh the page if the enforcement message is displayed
             location.reload();
@@ -51,6 +56,31 @@ function checkForAds() {
     }
 
     hideClarifyBox();
+    hideImageAds();
+}
+
+/**
+ * Function to hide image advertisements
+ */
+function hideImageAds() {
+    const adImageClasses = [
+        'YtwAdImageViewModelHostImage',
+        'player-ads',
+        'ytd-engagement-panel-section-list-renderer',
+        'YtwAdImageViewModelHostImageContainer',
+        'YtwAdImageViewModelHostIsClickableAdComponent',
+        'ytd-player-legacy-desktop-watch-ads-renderer',
+        'ytd-in-feed-ad-layout-renderer',
+        'ytd-engagement-panel-title-header-renderer',
+        // Add other known image advertisement classes here
+    ];
+
+    adImageClasses.forEach(adClass => {
+        const adImages = document.querySelectorAll(`.${adClass}`);
+        adImages.forEach(adImage => {
+            adImage.style.display = 'none';
+        });
+    });
 }
 
 /**

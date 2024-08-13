@@ -4,39 +4,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YouTube Ad Muter Info</title>
+  <title>YouTube Ad Muter</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="libs/bootstrap.min.css">
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" href="libs/jquery.dataTables.css">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      padding: 20px;
+    }
+
+    .card {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container mt-3">
-    <h2>YouTube Ad Muter Info</h2>
-    <button id="loadDataButton" class="btn btn-primary">Refresh Data</button>
-    <div id="root"></div>
-    <table id="adMuteTable" class="display" style="width:100%">
-      <thead>
-        <tr>
-          <th>URL</th>
-          <th>Timestamp</th>
-          <th>Page Title</th>
-          <th>Count</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Data will be populated here by JavaScript -->
-      </tbody>
-    </table>
+  <div class="container">
+    <h1 class="text-center h4 text-nowrap">YouTube Ad Muter</h1>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Metrics</h5>
+            <p id="totalCount" class="card-text">Total Ad Mutes: 0</p>
+            <button id="loadDataButton" class="btn btn-primary btn-sm">Refresh Data</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- jQuery -->
   <script src="libs/jquery-3.5.1.min.js"></script>
   <!-- Bootstrap JS -->
   <script src="libs/bootstrap.min.js"></script>
-  <!-- DataTables JS -->
-  <script src="libs/jquery.dataTables.min.js"></script>
   <!-- React and ReactDOM -->
   <script src="libs/react.development.js"></script>
   <script src="libs/react-dom.development.js"></script>

@@ -39,7 +39,6 @@
       "resources": [
         "libs/jquery-3.5.1.min.js",
         "libs/bootstrap.min.js",
-        "libs/jquery.dataTables.min.js",
         "libs/react.development.js",
         "libs/react-dom.development.js"
       ],

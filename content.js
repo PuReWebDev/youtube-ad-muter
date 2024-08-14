@@ -10,53 +10,55 @@
  * Function to check for ad elements and mute/unmute video
  */
 function checkForAds() {
-    const video = document.querySelector('video');
-    const adOverlay = document.querySelector('.ad-showing');
-    const skipButton = document.querySelector('.ytp-skip-ad-button');
-    const enforcementMessage = document.querySelector('.style-scope.ytd-enforcement-message-view-model');
+    try {
+        const video = document.querySelector('video');
+        const adOverlay = document.querySelector('.ad-showing');
+        const skipButton = document.querySelector('.ytp-skip-ad-button');
+        const enforcementMessage = document.querySelector('.style-scope.ytd-enforcement-message-view-model');
 
-    if (adOverlay) {
-        // Mute the audio when the user selected video is interrupted
-        if (video) {
-            video.muted = true;
-            storeAdMuteInfo();
-        }
-    } else {
-        // Unmute the video if no ad is playing
-        if (video) video.muted = false;
-    }
-
-    if (skipButton) {
-        // Add a random delay between 1-3 seconds before clicking the skip button
-        // Needed because of inappropriately being flagged as an ad blocker.
-        const delay = Math.random() * 2000 + 1000; // Random delay between 1000ms (1s) and 3000ms (3s)
-        setTimeout(() => {
-            // If YouTube presents skip button, use opts to use it. This is preference, not an adblocker.
-            skipButton.click();
-            if (video) video.muted = false;
-        }, delay);
-    }
-
-    if (enforcementMessage && enforcementMessage.style.display !== 'none') {
-        // Redirect to the video at the current time if the enforcement message is displayed
-        if (video) {
-            const currentTime = video.currentTime;
-            if (currentTime > 0) {
-                const videoUrl = new URL(window.location.href);
-                videoUrl.searchParams.set('t', `${Math.floor(currentTime)}s`);
-                window.location.href = videoUrl.toString();
-            } else {
-                // Refresh the page if the current time is 0
-                location.reload();
+        if (adOverlay) {
+            // Mute the video if an ad is playing
+            if (video) {
+                video.muted = true;
+                storeAdMuteInfo();
             }
         } else {
-            // Refresh the page if the enforcement message is displayed
-            location.reload();
+            // Unmute the video if no ad is playing
+            if (video) video.muted = false;
         }
-    }
 
-    hideClarifyBox();
-    hideImageAds();
+        if (skipButton) {
+            // Add a random delay between 1-3 seconds before clicking the skip button
+            const delay = Math.random() * 2000 + 1000; // Random delay between 1000ms (1s) and 3000ms (3s)
+            setTimeout(() => {
+                skipButton.click();
+                if (video) video.muted = false;
+            }, delay);
+        }
+
+        if (enforcementMessage && enforcementMessage.style.display !== 'none') {
+            // Redirect to the video at the current time if the enforcement message is displayed
+            if (video) {
+                const currentTime = video.currentTime;
+                if (currentTime > 0) {
+                    const videoUrl = new URL(window.location.href);
+                    videoUrl.searchParams.set('t', `${Math.floor(currentTime)}s`);
+                    window.location.href = videoUrl.toString();
+                } else {
+                    // Refresh the page if the current time is 0
+                    location.reload();
+                }
+            } else {
+                // Refresh the page if the enforcement message is displayed
+                location.reload();
+            }
+        }
+
+        hideClarifyBox();
+        hideImageAds();
+    } catch (error) {
+        console.error('Error in checkForAds:', error);
+    }
 }
 
 /**

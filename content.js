@@ -10,110 +10,131 @@
  * Function to check for ad elements and mute/unmute video
  */
 function checkForAds() {
-    const video = document.querySelector('video');
-    const adOverlay = document.querySelector('.ad-showing');
-    const skipButton = document.querySelector('.ytp-skip-ad-button');
-    const enforcementMessage = document.querySelector('.style-scope.ytd-enforcement-message-view-model');
+    try {
+        const video = document.querySelector('video');
+        const adOverlay = document.querySelector('.ad-showing');
+        const skipButton = document.querySelector('.ytp-skip-ad-button');
+        const enforcementMessage = document.querySelector('.style-scope.ytd-enforcement-message-view-model');
 
-    if (adOverlay) {
-        // Mute the audio when the user selected video is interrupted
-        if (video) {
-            video.muted = true;
-            storeAdMuteInfo();
-        }
-    } else {
-        // Unmute the video if no ad is playing
-        if (video) video.muted = false;
-    }
+        // Retrieve preferences from local storage
+        chrome.storage.local.get(['muteAdsEnable', 'hideDistractingAds', 'skipAdOption'], function (result) {
+            const muteAdsEnable = result.muteAdsEnable || false;
+            const hideDistractingAds = result.hideDistractingAds || false;
+            const skipAdOption = result.skipAdOption || false;
 
-    if (skipButton) {
-        // Add a random delay between 1-3 seconds before clicking the skip button
-        // Needed because of inappropriately being flagged as an ad blocker.
-        const delay = Math.random() * 2000 + 1000; // Random delay between 1000ms (1s) and 3000ms (3s)
-        setTimeout(() => {
-            // If YouTube presents skip button, use opts to use it. This is preference, not an adblocker.
-            skipButton.click();
-            if (video) video.muted = false;
-        }, delay);
-    }
-
-    if (enforcementMessage && enforcementMessage.style.display !== 'none') {
-        // Redirect to the video at the current time if the enforcement message is displayed
-        if (video) {
-            const currentTime = video.currentTime;
-            if (currentTime > 0) {
-                const videoUrl = new URL(window.location.href);
-                videoUrl.searchParams.set('t', `${Math.floor(currentTime)}s`);
-                window.location.href = videoUrl.toString();
+            if (adOverlay && muteAdsEnable) {
+                // Mute the video if an ad is playing and the preference is enabled
+                if (video) {
+                    video.muted = true;
+                    storeAdMuteInfo();
+                }
             } else {
-                // Refresh the page if the current time is 0
-                location.reload();
+                // Unmute the video if no ad is playing
+                if (video) video.muted = false;
             }
-        } else {
-            // Refresh the page if the enforcement message is displayed
-            location.reload();
-        }
-    }
 
-    hideClarifyBox();
-    hideImageAds();
+            if (skipButton && skipAdOption) {
+                // Add a random delay between 1-3 seconds before clicking the skip button
+                const delay = Math.random() * 2000 + 1000; // Random delay between 1000ms (1s) and 3000ms (3s)
+                setTimeout(() => {
+                    skipButton.click();
+                    if (video) video.muted = false;
+                }, delay);
+            }
+
+            if (enforcementMessage && enforcementMessage.style.display !== 'none') {
+                // Redirect to the video at the current time if the enforcement message is displayed
+                if (video) {
+                    const currentTime = video.currentTime;
+                    if (currentTime > 0) {
+                        const videoUrl = new URL(window.location.href);
+                        videoUrl.searchParams.set('t', `${Math.floor(currentTime)}s`);
+                        window.location.href = videoUrl.toString();
+                    } else {
+                        // Refresh the page if the current time is 0
+                        location.reload();
+                    }
+                } else {
+                    // Refresh the page if the enforcement message is displayed
+                    location.reload();
+                }
+            }
+
+            hideClarifyBox();
+
+            if (hideDistractingAds) {
+                hideImageAds();
+            }
+        });
+    } catch (error) {
+        console.error('Error in checkForAds:', error);
+    }
 }
 
 /**
  * Function to hide image advertisements
  */
 function hideImageAds() {
-    const adImageClasses = [
-        'YtwAdImageViewModelHostImage',
-        'player-ads',
-        'ytd-engagement-panel-section-list-renderer',
-        'YtwAdImageViewModelHostImageContainer',
-        'YtwAdImageViewModelHostIsClickableAdComponent',
-        'ytd-player-legacy-desktop-watch-ads-renderer',
-        'ytd-in-feed-ad-layout-renderer',
-        'ytd-engagement-panel-title-header-renderer',
-        // Add other known image advertisement classes here
-    ];
+    try {
+        const adImageClasses = [
+            'YtwAdImageViewModelHostImage',
+            'player-ads',
+            'ytd-engagement-panel-section-list-renderer',
+            'YtwAdImageViewModelHostImageContainer',
+            'YtwAdImageViewModelHostIsClickableAdComponent',
+            'ytd-player-legacy-desktop-watch-ads-renderer',
+            'ytd-in-feed-ad-layout-renderer',
+            'ytd-engagement-panel-title-header-renderer',
+            // Add other known image advertisement classes here
+        ];
 
-    adImageClasses.forEach(adClass => {
-        const adImages = document.querySelectorAll(`.${adClass}`);
-        adImages.forEach(adImage => {
-            adImage.style.display = 'none';
+        adImageClasses.forEach(adClass => {
+            const adImages = document.querySelectorAll(`.${adClass}`);
+            adImages.forEach(adImage => {
+                adImage.style.display = 'none';
+            });
         });
-    });
+    } catch (error) {
+        console.error('Error in hideImageAds:', error);
+    }
 }
 
 /**
  * Function to store ad mute information in local storage
  */
 function storeAdMuteInfo() {
-    const url = window.location.href;
-    const timestamp = new Date().toISOString();
-    const pageTitle = document.title;
-
     try {
+        const url = window.location.href;
+        const timestamp = new Date().toISOString();
+        const pageTitle = document.title;
+
         // Retrieve existing data from chrome.storage
         chrome.storage.local.get(['adMuteData'], function (result) {
-            let adMuteData = result.adMuteData || {};
+            try {
+                let adMuteData = result.adMuteData || {};
 
-            // Initialize or update the count for the current URL
-            if (!adMuteData[url]) {
-                adMuteData[url] = {
-                    count: 0,
-                    entries: []
-                };
+                // Initialize or update the count for the current URL
+                if (!adMuteData[url]) {
+                    adMuteData[url] = {
+                        count: 0,
+                        entries: []
+                    };
+                }
+
+                // Update the count and add a new entry
+                adMuteData[url].count += 1;
+                adMuteData[url].entries.push({ timestamp, pageTitle });
+
+                // Save the updated data back to chrome.storage
+                chrome.storage.local.set({ adMuteData }, function () {
+                    console.log('Ad mute information stored successfully.');
+                });
+            } catch (error) {
+                console.error('Error updating ad mute data:', error);
             }
-
-            adMuteData[url].count += 1;
-            adMuteData[url].entries.push({ timestamp, pageTitle });
-
-            // Store the updated data back in chrome.storage
-            chrome.storage.local.set({ adMuteData: adMuteData }, function () {
-                console.log('Ad mute data is saved to chrome.storage');
-            });
         });
     } catch (error) {
-        console.error('Error in storeAdMuteInfo: ', error);
+        console.error('Error in storeAdMuteInfo:', error);
     }
 }
 
@@ -124,8 +145,12 @@ setInterval(checkForAds, 1000);
  * Function to hide the clarify box if it exists
  */
 function hideClarifyBox() {
-    const clarifyBox = document.getElementById('clarify-box');
-    if (clarifyBox) {
-        clarifyBox.style.display = 'none';
+    try {
+        const clarifyBox = document.getElementById('clarify-box');
+        if (clarifyBox) {
+            clarifyBox.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error in hideClarifyBox:', error);
     }
 }

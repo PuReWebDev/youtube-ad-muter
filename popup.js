@@ -41,3 +41,29 @@ observer.observe(document.body, { childList: true, subtree: true });
 
 // Also call the function directly in case the button is already present
 // addLoadDataButtonListener();
+
+document.addEventListener('DOMContentLoaded', function () {
+    const muteAdsEnableCheckbox = document.getElementById('muteAdsEnable');
+    const hideDistractingAdsCheckbox = document.getElementById('hideDistractingAds');
+    const skipAdOptionCheckbox = document.getElementById('skipAdOption');
+
+    // Load saved preferences
+    chrome.storage.local.get(['muteAdsEnable', 'hideDistractingAds', 'skipAdOption'], function (result) {
+        muteAdsEnableCheckbox.checked = result.muteAdsEnable || false;
+        hideDistractingAdsCheckbox.checked = result.hideDistractingAds || false;
+        skipAdOptionCheckbox.checked = result.skipAdOption || false;
+    });
+
+    // Save preferences when checkboxes are changed
+    muteAdsEnableCheckbox.addEventListener('change', function () {
+        chrome.storage.local.set({ muteAdsEnable: muteAdsEnableCheckbox.checked });
+    });
+
+    hideDistractingAdsCheckbox.addEventListener('change', function () {
+        chrome.storage.local.set({ hideDistractingAds: hideDistractingAdsCheckbox.checked });
+    });
+
+    skipAdOptionCheckbox.addEventListener('change', function () {
+        chrome.storage.local.set({ skipAdOption: skipAdOptionCheckbox.checked });
+    });
+});

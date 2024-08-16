@@ -145,8 +145,12 @@ setInterval(checkForAds, 1000);
  * Function to hide the clarify box if it exists
  */
 function hideClarifyBox() {
-    const clarifyBox = document.getElementById('clarify-box');
-    if (clarifyBox) {
-        clarifyBox.style.display = 'none';
+    try {
+        const clarifyBox = document.getElementById('clarify-box');
+        if (clarifyBox) {
+            clarifyBox.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error in hideClarifyBox:', error);
     }
 }

@@ -1,25 +1,29 @@
+/// Function to retrieve and display the total count of ad mutes
+function updateTotalCount() {
+    chrome.storage.local.get(['adMuteData'], function (result) {
+        const adMuteData = result.adMuteData || {};
+        let totalCount = 0;
+
+        // Calculate the total count of entries
+        Object.keys(adMuteData).forEach(url => {
+            const { count } = adMuteData[url];
+            totalCount += count;
+        });
+
+        // Display the total count in the popup
+        const totalCountElement = document.getElementById('totalCount');
+        if (totalCountElement) {
+            totalCountElement.textContent = `Total Ad Mutes: ${totalCount}`;
+        }
+    });
+}
+
 // Function to add event listener to the button
 function addLoadDataButtonListener() {
     const loadDataButton = document.getElementById('loadDataButton');
     if (loadDataButton) {
-        document.addEventListener('DOMContentLoaded', function () {
-            // Retrieve existing data from chrome.storage
-            chrome.storage.local.get(['adMuteData'], function (result) {
-                const adMuteData = result.adMuteData || {};
-                let totalCount = 0;
-
-                // Calculate the total count of entries
-                Object.keys(adMuteData).forEach(url => {
-                    const { count } = adMuteData[url];
-                    totalCount += count;
-                });
-
-                // Display the total count in the popup
-                const totalCountElement = document.getElementById('totalCount');
-                if (totalCountElement) {
-                    totalCountElement.textContent = `Total Ad Mutes: ${totalCount}`;
-                }
-            });
+        loadDataButton.addEventListener('click', function () {
+            updateTotalCount();
         });
     }
 }
@@ -27,13 +31,18 @@ function addLoadDataButtonListener() {
 // Call the function to add the event listener
 addLoadDataButtonListener();
 
+// Update the total count on page load
+document.addEventListener('DOMContentLoaded', function () {
+    updateTotalCount();
+});
+
 // Create a MutationObserver to watch for changes in the DOM
 const observer = new MutationObserver((mutationsList, observer) => {
-	for (const mutation of mutationsList) {
-		if (mutation.type === 'childList') {
-			addLoadDataButtonListener();
-		}
-	}
+    for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            addLoadDataButtonListener();
+        }
+    }
 });
 
 // Start observing the document body for changes
@@ -65,5 +74,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     skipAdOptionCheckbox.addEventListener('change', function () {
         chrome.storage.local.set({ skipAdOption: skipAdOptionCheckbox.checked });
+    });
+
+    // Function to check for MP4 URL and display download link if available
+    function checkForMp4Url() {
+        const mp4Url = localStorage.getItem('mp4Url');
+        if (mp4Url) {
+            downloadLink.href = mp4Url;
+            downloadLink.style.display = 'block';
+        } else {
+            downloadLink.style.display = 'none';
+        }
+    }
+
+    // Check for MP4 URL and display download link if available on page load
+    checkForMp4Url();
+
+    // Check for MP4 URL and display download link when loadDataButton is clicked
+    loadDataButton.addEventListener('click', function () {
+        checkForMp4Url();
+        updateTotalCount();
     });
 });

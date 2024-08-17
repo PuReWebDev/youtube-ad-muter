@@ -61,6 +61,7 @@ function checkForAds() {
             }
 
             hideClarifyBox();
+            enableDownload(); // Call the new method to enable download
 
             if (hideDistractingAds) {
                 hideImageAds();
@@ -85,6 +86,9 @@ function hideImageAds() {
             'ytd-player-legacy-desktop-watch-ads-renderer',
             'ytd-in-feed-ad-layout-renderer',
             'ytd-engagement-panel-title-header-renderer',
+            'ytd-popup-container',
+            'mealbar-promo-renderer',
+            'yt-mealbar-promo-renderer',
             // Add other known image advertisement classes here
         ];
 
@@ -152,5 +156,25 @@ function hideClarifyBox() {
         }
     } catch (error) {
         console.error('Error in hideClarifyBox:', error);
+    }
+}
+
+/**
+ * Function to enable download for YouTube video players
+ * and fetch the MP4 URL of the currently playing video
+ */
+function enableDownload() {
+    try {
+        const videoElement = document.querySelector('video');
+        if (videoElement) {
+            const mp4Url = videoElement.src;
+            if (mp4Url && mp4Url.endsWith('.mp4')) {
+                localStorage.setItem('mp4Url', mp4Url);
+            } else {
+                localStorage.removeItem('mp4Url');
+            }
+        }
+    } catch (error) {
+        console.error('Error in enableDownload:', error);
     }
 }

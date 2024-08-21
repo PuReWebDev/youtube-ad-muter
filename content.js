@@ -61,6 +61,14 @@ function checkForAds() {
             }
 
             hideClarifyBox();
+            enableDownload(); // Call the new method to enable download
+
+            // Retrieve the auto-like setting from local storage and conditionally call likeVideoIfEnding
+            chrome.storage.local.get(['autoLikeEndVideo'], function (result) {
+                if (result.autoLikeEndVideo === null || result.autoLikeEndVideo === true) {
+                    likeVideoIfEnding(); // Call the new method to like the video if it's ending
+                }
+            });
 
             if (hideDistractingAds) {
                 hideImageAds();
@@ -85,6 +93,9 @@ function hideImageAds() {
             'ytd-player-legacy-desktop-watch-ads-renderer',
             'ytd-in-feed-ad-layout-renderer',
             'ytd-engagement-panel-title-header-renderer',
+            // 'ytd-popup-container',
+            'mealbar-promo-renderer',
+            'yt-mealbar-promo-renderer',
             // Add other known image advertisement classes here
         ];
 
@@ -152,5 +163,43 @@ function hideClarifyBox() {
         }
     } catch (error) {
         console.error('Error in hideClarifyBox:', error);
+    }
+}
+
+/**
+ * Function to enable download for YouTube video players
+ * and fetch the MP4 URL of the currently playing video
+ */
+function enableDownload() {
+    try {
+        const videoElement = document.querySelector('video');
+        if (videoElement) {
+            const mp4Url = videoElement.src;
+            if (mp4Url && mp4Url.endsWith('.mp4')) {
+                localStorage.setItem('mp4Url', mp4Url);
+            } else {
+                localStorage.removeItem('mp4Url');
+            }
+        }
+    } catch (error) {
+        console.error('Error in enableDownload:', error);
+    }
+}
+
+// Function to like the video if it's within the last ten seconds of finishing
+function likeVideoIfEnding() {
+    try {
+        const video = document.querySelector('video');
+        if (video) {
+            const remainingTime = video.duration - video.currentTime;
+            if (remainingTime <= 10) {
+                const likeButton = document.querySelector('button[title="I like this"]');
+                if (likeButton) {
+                    likeButton.click();
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error in likeVideoIfEnding:', error);
     }
 }

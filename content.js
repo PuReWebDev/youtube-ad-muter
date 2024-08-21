@@ -17,10 +17,11 @@ function checkForAds() {
         const enforcementMessage = document.querySelector('.style-scope.ytd-enforcement-message-view-model');
 
         // Retrieve preferences from local storage
-        chrome.storage.local.get(['muteAdsEnable', 'hideDistractingAds', 'skipAdOption'], function (result) {
+        chrome.storage.local.get(['muteAdsEnable', 'hideDistractingAds', 'skipAdOption', 'autoLikeEndVideo'], function (result) {
             const muteAdsEnable = result.muteAdsEnable || false;
             const hideDistractingAds = result.hideDistractingAds || false;
             const skipAdOption = result.skipAdOption || false;
+            const autoLikeEndVideo = result.autoLikeEndVideo || false;
 
             if (adOverlay && muteAdsEnable) {
                 // Mute the video if an ad is playing and the preference is enabled
@@ -63,12 +64,10 @@ function checkForAds() {
             hideClarifyBox();
             enableDownload(); // Call the new method to enable download
 
-            // Retrieve the auto-like setting from local storage and conditionally call likeVideoIfEnding
-            chrome.storage.local.get(['autoLikeEndVideo'], function (result) {
-                if (result.autoLikeEndVideo === null || result.autoLikeEndVideo === true) {
-                    likeVideoIfEnding(); // Call the new method to like the video if it's ending
-                }
-            });
+            // conditionally call likeVideoIfEnding
+            if (autoLikeEndVideo) {
+                likeVideoIfEnding(); // Call the new method to like the video if it's ending
+            }
 
             if (hideDistractingAds) {
                 hideImageAds();

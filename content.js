@@ -86,7 +86,7 @@ function hideImageAds() {
             'ytd-player-legacy-desktop-watch-ads-renderer',
             'ytd-in-feed-ad-layout-renderer',
             'ytd-engagement-panel-title-header-renderer',
-            'ytd-popup-container',
+            // 'ytd-popup-container',
             'mealbar-promo-renderer',
             'yt-mealbar-promo-renderer',
             // Add other known image advertisement classes here

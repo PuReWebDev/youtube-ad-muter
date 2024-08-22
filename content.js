@@ -72,6 +72,10 @@ function checkForAds() {
             if (hideDistractingAds) {
                 hideImageAds();
             }
+
+            // Call the new methods to handle watch later queue
+            addToWatchLaterIfPlayedFor10Seconds();
+            removeFromWatchLaterIfEnding();
         });
     } catch (error) {
         console.error('Error in checkForAds:', error);
@@ -200,5 +204,52 @@ function likeVideoIfEnding() {
         }
     } catch (error) {
         console.error('Error in likeVideoIfEnding:', error);
+    }
+}
+
+// Function to add the current video to the watch later queue after it plays for 10 seconds
+function addToWatchLaterIfPlayedFor10Seconds() {
+    try {
+        const video = document.querySelector('video');
+        chrome.storage.local.get(['inQueue'], function (result) {
+            if (video && !result.inQueue) {
+                video.addEventListener('timeupdate', function () {
+                    if (video.currentTime >= 10) {
+                        const watchLaterButton = document.querySelector('ytd-playlist-add-to-option-renderer tp-yt-paper-checkbox');
+                        if (watchLaterButton) {
+                            watchLaterButton.click();
+                            chrome.storage.local.set({ inQueue: true });
+                        }
+                        video.removeEventListener('timeupdate', arguments.callee);
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        console.error('Error in addToWatchLaterIfPlayedFor10Seconds:', error);
+    }
+}
+
+// Function to remove the current video from the watch later queue if it has less than 10 seconds remaining
+function removeFromWatchLaterIfEnding() {
+    try {
+        const video = document.querySelector('video');
+        chrome.storage.local.get(['inQueue'], function (result) {
+            if (video && result.inQueue) {
+                video.addEventListener('timeupdate', function () {
+                    const remainingTime = video.duration - video.currentTime;
+                    if (remainingTime <= 10) {
+                        const removeWatchLaterButton = document.querySelector('ytd-playlist-add-to-option-renderer tp-yt-paper-checkbox');
+                        if (removeWatchLaterButton) {
+                            removeWatchLaterButton.click();
+                            chrome.storage.local.set({ inQueue: false });
+                        }
+                        video.removeEventListener('timeupdate', arguments.callee);
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        console.error('Error in removeFromWatchLaterIfEnding:', error);
     }
 }

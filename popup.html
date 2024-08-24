@@ -7,47 +7,51 @@
   <title>YouTube Ad Muter</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="libs/bootstrap.min.css">
-  <!-- Custom CSS -->
-  <style>
-    body {
-      padding: 20px;
-    }
-
-    .card {
-      margin-top: 20px;
-    }
-  </style>
+  <!-- Bootstrap Icons CSS -->
+  <link rel="stylesheet" href="images/bootstrap-icons/bootstrap-icons.css">
 </head>
 
 <body>
-  <div class="container">
-    <h1 class="text-center h4 text-nowrap">YouTube Ad Muter</h1>
-    <div class="row justify-content-center">
+  <div class="container" style="width: 300px;">
+    <h3>YouTube Ad Muter</h3>
+    <div class="row">
       <div class="col-md-6">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Metrics</h5>
             <p id="totalCount" class="card-text">Total Ad Mutes: 0</p>
-            <button id="loadDataButton" class="btn btn-primary btn-sm">Refresh Data</button>
-            <!-- Add these checkboxes to your popup HTML -->
-            <label>
-              <input type="checkbox" id="muteAdsEnable"> Mute Ads Enable
-            </label>
+            <button id="loadDataButton" class="btn btn-primary btn-sm">
+              <i class="bi bi-arrow-clockwise"></i> Refresh Data
+            </button>
+            <br><br>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Settings</h5>
+                <label>
+                  <input type="checkbox" id="muteAdsEnable">
+                  <i class="bi bi-volume-mute"></i> Mute Ads Enable
+                </label>
+                <br>
+                <label>
+                  <input type="checkbox" id="hideDistractingAds">
+                  <i class="bi bi-eye-slash"></i> Hide Distracting Advertisements
+                </label>
+                <br>
+                <label>
+                  <input type="checkbox" id="skipAdOption">
+                  <i class="bi bi-skip-forward"></i> Skip Ad When Option is Given
+                </label>
+                <br>
+                <label>
+                  <input type="checkbox" id="autoLikeEndVideo">
+                  <i class="bi bi-hand-thumbs-up"></i> Auto-Like At The End of Video
+                </label>
+              </div>
+            </div>
             <br>
-            <label>
-              <input type="checkbox" id="hideDistractingAds"> Hide Distracting Advertisements
-            </label>
-            <br />
-            <!-- Add this checkbox to your popup HTML -->
-            <label>
-              <input type="checkbox" id="skipAdOption"> Skip Ad When Option is Given
-            </label>
-            <br>
-            <label>
-                <input type="checkbox" id="autoLikeEndVideo"> Auto-Like At The End of Video
-            </label>
-            <br>
-            <a id="downloadLink" href="#" style="display: none;">Download Video</a>
+            <a id="downloadLink" href="#" style="display: none;">
+              <i class="bi bi-download"></i> Download Video
+            </a>
           </div>
         </div>
       </div>

@@ -28,7 +28,9 @@ YouTube Ad Muter: The ultimate sidekick for your YouTube binge sessions. This Ch
 2. **Load the extension in Chrome:**
 	1. Open Chrome and navigate to `chrome://extensions/`.
 	2. Enable "Developer mode" by clicking the toggle switch in the top right corner.
+	
 	<img src="images/load-extensions.png" alt="Enable Developer Mode and Load Unpacked extensions">
+
 	3. Click the "Load unpacked" button and select the directory where you cloned the repository.
 
 ## Usage

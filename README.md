@@ -1,20 +1,22 @@
 # YouTube Ad Muter
 
-YouTube Ad Muter is a Chrome extension that automatically mutes YouTube ads and skips them when possible. This extension enhances your YouTube viewing experience by reducing interruptions from advertisements.
+YouTube Ad Muter: The ultimate sidekick for your YouTube binge sessions. This Chrome extension is like your personal hype man, but for silence. It ninja-mutes those pesky ads and pulls off sick skips whenever it can. Say goodbye to your viewing vibe getting killed by random shout-outs for stuff you don't need. It's not just an extension, it's your ticket to peak YouTube chill. Elevate your streaming game and keep those good vibes rolling, fam!
 
 <img src="images/youtube-ad-mute.png" alt="YouTube Ad Mute Screenshot" width="400px">
 
 ## Features
 
-- Automatically mutes YouTube ads
-- Skips ads when possible
-- Hides distracting image advertisements
-- Auto-likes videos at the end
-- Adds videos to the Watch Later queue after 10 seconds of playtime
-- Removes videos from the Watch Later queue if they have less than 10 seconds remaining
-- Enhances YouTube viewing experience
-- Does not affect Google revenue because advertisements are never blocked, ensuring ad impressions continue to go up while users express their preferences and respect YouTube's TOS
-- Offers nearly identical ad-free experiences to YouTube Premium at no cost, providing a cost-effective open-source alternative
+- Mute YouTube ads like a ninja – say goodbye to earworm jingles!
+- Skip ads faster than you can say "FOMO" (when possible, of course)
+- Bye Felicia to those pesky banner ads – keep your eyes on the prize
+- Auto-smash that like button – because ain't nobody got time for that
+- "Watch Later" on steroids – adds vids to your queue faster than you can decide what's for dinner
+- Marie Kondo your "Watch Later" list – auto-removes vids that don't spark joy (or have less than 10 seconds left)
+- YouTube viewing experience? We just put it in beast mode
+- Keeps the YouTube algorithm happy – no ad blocking, just smooth sailing
+- Premium vibes without the premium price tag – open-source ftw!
+- The only extension that's cracked the YouTube code – helping creators go viral while you binge in peace
+
 
 ## Installation
 

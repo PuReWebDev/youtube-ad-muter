@@ -28,22 +28,22 @@ YouTube Ad Muter: The ultimate sidekick for your YouTube binge sessions. This Ch
 2. **Load the extension in Chrome:**
 	1. Open Chrome and navigate to `chrome://extensions/`.
 	2. Enable "Developer mode" by clicking the toggle switch in the top right corner.
-	
+
 	<img src="images/load-extensions.png" alt="Enable Developer Mode and Load Unpacked extensions">
 
 	3. Click the "Load unpacked" button and select the directory where you cloned the repository.
 
 ## Usage
 
-1. Open YouTube in your Chrome browser.
-2. The extension will based on your preferences automatically mute ads and skip them when possible.
-3. You can configure the extension using the following checkboxes in the popup:
-    - **Mute Ads Enable:** When checked, the extension will mute ads automatically.
-    - **Hide Distracting Advertisements:** When checked, the extension will hide distracting image advertisements.
-    - **Skip Ad When Option is Given:** When checked, the extension will automatically click the skip button when it appears.
-    - **Auto-Like At The End of Video:** When checked, the extension will automatically like the video at the end.
-    - **Add to Watch Later Queue:** Automatically adds the current video to the Watch Later queue after it plays for 10 seconds.
-    - **Remove from Watch Later Queue:** Automatically removes the current video from the Watch Later queue if it has less than 10 seconds remaining.
+1. Fire up YouTube in your Chrome browser.
+2. Sit back and relax as the extension automatically mutes and skips ads based on your preferences.
+3. Customize your experience with these options in the popup:
+    - **Mute Ads Enable:** Automatically mutes those annoying ads.
+    - **Hide Distracting Advertisements:** Keeps your screen clutter-free by hiding distracting image ads.
+    - **Skip Ad When Option is Given:** Automatically skips ads when the skip button appears.
+    - **Auto-Like At The End of Video:** Show some love by auto-liking videos at the end.
+    - **Add to Watch Later Queue:** Automatically adds videos to your Watch Later queue after 10 seconds of playtime.
+    - **Remove from Watch Later Queue:** Automatically removes videos from your Watch Later queue if they have less than 10 seconds remaining.
 
 ## Contributing
 

@@ -23,7 +23,6 @@ YouTube Ad Muter: The ultimate sidekick for your YouTube binge sessions. This Ch
 1. **Clone the repository:**
 	```sh
 	git clone https://github.com/purewebdev/youtube-ad-muter.git
-	cd youtube-ad-muter
 	```
 
 2. **Load the extension in Chrome:**

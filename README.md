@@ -6,6 +6,10 @@ YouTube Ad Muter is a Chrome extension that automatically mutes YouTube ads and 
 
 - Automatically mutes YouTube ads
 - Skips ads when possible
+- Hides distracting image advertisements
+- Auto-likes videos at the end
+- Adds videos to the Watch Later queue after 10 seconds of playtime
+- Removes videos from the Watch Later queue if they have less than 10 seconds remaining
 - Enhances YouTube viewing experience
 
 ## Installation
@@ -29,6 +33,9 @@ YouTube Ad Muter is a Chrome extension that automatically mutes YouTube ads and 
     - **Mute Ads Enable:** When checked, the extension will mute ads automatically.
     - **Hide Distracting Advertisements:** When checked, the extension will hide distracting image advertisements.
     - **Skip Ad When Option is Given:** When checked, the extension will automatically click the skip button when it appears.
+    - **Auto-Like At The End of Video:** When checked, the extension will automatically like the video at the end.
+    - **Add to Watch Later Queue:** Automatically adds the current video to the Watch Later queue after it plays for 10 seconds.
+    - **Remove from Watch Later Queue:** Automatically removes the current video from the Watch Later queue if it has less than 10 seconds remaining.
 
 ![YouTube Ad Mute Screenshot](images/youtube-ad-mute.png)
 

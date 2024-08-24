@@ -7,51 +7,137 @@
   <title>YouTube Ad Muter</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="libs/bootstrap.min.css">
-  <!-- Custom CSS -->
+  <!-- Bootstrap Icons CSS -->
+  <link rel="stylesheet" href="images/bootstrap-icons/bootstrap-icons.css">
   <style>
-    body {
-      padding: 20px;
+    .card {
+      border-color: #007bff;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .card {
-      margin-top: 20px;
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1 class="text-center h4 text-nowrap">YouTube Ad Muter</h1>
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Metrics</h5>
-            <p id="totalCount" class="card-text">Total Ad Mutes: 0</p>
-            <button id="loadDataButton" class="btn btn-primary btn-sm">Refresh Data</button>
-            <!-- Add these checkboxes to your popup HTML -->
-            <label>
-              <input type="checkbox" id="muteAdsEnable"> Mute Ads Enable
-            </label>
-            <br>
-            <label>
-              <input type="checkbox" id="hideDistractingAds"> Hide Distracting Advertisements
-            </label>
-            <br />
-            <!-- Add this checkbox to your popup HTML -->
-            <label>
-              <input type="checkbox" id="skipAdOption"> Skip Ad When Option is Given
-            </label>
-            <br>
-            <label>
-                <input type="checkbox" id="autoLikeEndVideo"> Auto-Like At The End of Video
-            </label>
-            <br>
-            <a id="downloadLink" href="#" style="display: none;">Download Video</a>
+  <div class="container" style="width: 350px;margin-top: 10px;">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">YouTube Ad Muter</div>
+      <div class="panel-body">
+
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="card">
+              <div class="card-body">
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">Metrics</div>
+                  <div class="panel-body">
+                    <p id="totalCount" class="card-text">Total Ad Mutes: 0</p>
+                    <button id="loadDataButton" class="btn btn-primary btn-sm">
+                      <i class="bi bi-arrow-clockwise"></i> Refresh Data
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+
+                <div class="panel panel-default">
+                  <div class="panel-heading">Extension Settings</div>
+                  <div class="panel-body">
+                    <h5 class="card-title">User Settings</h5>
+                    <label>
+                      <input type="checkbox" id="muteAdsEnable">
+                      <i class="bi bi-volume-mute"></i> Mute Ads
+                    </label>
+                    <br>
+                    <label>
+                      <input type="checkbox" id="hideDistractingAds">
+                      <i class="bi bi-eye-slash"></i> Hide Distracting Advertisements
+                    </label>
+                    <br>
+                    <label>
+                      <input type="checkbox" id="skipAdOption">
+                      <i class="bi bi-skip-forward"></i> Skip Ad When Option is Given
+                    </label>
+                    <br>
+                    <label>
+                      <input type="checkbox" id="autoLikeEndVideo">
+                      <i class="bi bi-hand-thumbs-up"></i> Auto-Like At The End of Video
+                    </label>
+                    <br>
+                    <a id="downloadLink" href="#" style="display: none;">
+                      <i class="bi bi-download"></i> Download Video
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Extension Support</div>
+                  <div class="panel-body">
+                    <h5 class="card-title">Support Requests</h5>
+                    <a href="https://github.com/PuReWebDev/youtube-ad-muter/issues/new/choose" target="_blank">
+                      <i class="bi bi-exclamation-circle"></i> Report An Issue
+                    </a>
+                    <br>
+                    <a href="https://github.com/PuReWebDev/youtube-ad-muter/issues/new/choose" target="_blank">
+                      <i class="bi bi-lightbulb"></i> Request New Features
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <div class="panel panel-default">
+                  <div class="panel-heading">Extension Contributions</div>
+                  <div class="panel-body">
+                    <h5 class="card-title">Financial Contributions</h5>
+                    <p>If you find this extension useful, consider supporting its development:</p>
+                    <a href="https://cash.app/$GenesisFont" target="_blank" class="btn btn-primary btn-sm">
+                      <i class="bi bi-cup"></i> Donate via Cash App
+                    </a>
+                    <br />
+                    <hr />
+                    <h5 class="card-title">Code Contributions</h5>
+                    <p>We welcome contributions from the community. If you would like to contribute, please follow
+                      these
+                      steps:</p>
+                    <ol>
+                      <li>Fork the repository</li>
+                      <li>Create a new branch for your feature or bugfix</li>
+                      <li>Make your changes</li>
+                      <li>Submit a pull request</li>
+                    </ol>
+                    <p>For more details, please refer to the <a
+                        href="https://github.com/PuReWebDev/youtube-ad-muter/blob/main/CONTRIBUTING.md"
+                        target="_blank">contribution guidelines</a>.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
+
       </div>
     </div>
+
   </div>
 
   <!-- jQuery -->

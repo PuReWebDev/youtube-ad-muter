@@ -17,10 +17,11 @@ function checkForAds() {
         const enforcementMessage = document.querySelector('.style-scope.ytd-enforcement-message-view-model');
 
         // Retrieve preferences from local storage
-        chrome.storage.local.get(['muteAdsEnable', 'hideDistractingAds', 'skipAdOption'], function (result) {
+        chrome.storage.local.get(['muteAdsEnable', 'hideDistractingAds', 'skipAdOption', 'autoLikeEndVideo'], function (result) {
             const muteAdsEnable = result.muteAdsEnable || false;
             const hideDistractingAds = result.hideDistractingAds || false;
             const skipAdOption = result.skipAdOption || false;
+            const autoLikeEndVideo = result.autoLikeEndVideo || false;
 
             if (adOverlay && muteAdsEnable) {
                 // Mute the video if an ad is playing and the preference is enabled
@@ -63,16 +64,18 @@ function checkForAds() {
             hideClarifyBox();
             enableDownload(); // Call the new method to enable download
 
-            // Retrieve the auto-like setting from local storage and conditionally call likeVideoIfEnding
-            chrome.storage.local.get(['autoLikeEndVideo'], function (result) {
-                if (result.autoLikeEndVideo === null || result.autoLikeEndVideo === true) {
-                    likeVideoIfEnding(); // Call the new method to like the video if it's ending
-                }
-            });
+            // conditionally call likeVideoIfEnding
+            if (autoLikeEndVideo) {
+                likeVideoIfEnding(); // Call the new method to like the video if it's ending
+            }
 
             if (hideDistractingAds) {
                 hideImageAds();
             }
+
+            // Call the new methods to handle watch later queue
+            addToWatchLaterIfPlayedFor10Seconds();
+            removeFromWatchLaterIfEnding();
         });
     } catch (error) {
         console.error('Error in checkForAds:', error);
@@ -201,5 +204,52 @@ function likeVideoIfEnding() {
         }
     } catch (error) {
         console.error('Error in likeVideoIfEnding:', error);
+    }
+}
+
+// Function to add the current video to the watch later queue after it plays for 10 seconds
+function addToWatchLaterIfPlayedFor10Seconds() {
+    try {
+        const video = document.querySelector('video');
+        chrome.storage.local.get(['inQueue'], function (result) {
+            if (video && !result.inQueue) {
+                video.addEventListener('timeupdate', function () {
+                    if (video.currentTime >= 10) {
+                        const watchLaterButton = document.querySelector('ytd-playlist-add-to-option-renderer tp-yt-paper-checkbox');
+                        if (watchLaterButton) {
+                            watchLaterButton.click();
+                            chrome.storage.local.set({ inQueue: true });
+                        }
+                        video.removeEventListener('timeupdate', arguments.callee);
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        console.error('Error in addToWatchLaterIfPlayedFor10Seconds:', error);
+    }
+}
+
+// Function to remove the current video from the watch later queue if it has less than 10 seconds remaining
+function removeFromWatchLaterIfEnding() {
+    try {
+        const video = document.querySelector('video');
+        chrome.storage.local.get(['inQueue'], function (result) {
+            if (video && result.inQueue) {
+                video.addEventListener('timeupdate', function () {
+                    const remainingTime = video.duration - video.currentTime;
+                    if (remainingTime <= 10) {
+                        const removeWatchLaterButton = document.querySelector('ytd-playlist-add-to-option-renderer tp-yt-paper-checkbox');
+                        if (removeWatchLaterButton) {
+                            removeWatchLaterButton.click();
+                            chrome.storage.local.set({ inQueue: false });
+                        }
+                        video.removeEventListener('timeupdate', arguments.callee);
+                    }
+                });
+            }
+        });
+    } catch (error) {
+        console.error('Error in removeFromWatchLaterIfEnding:', error);
     }
 }

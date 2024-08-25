@@ -1,3 +1,12 @@
+/**
+ * @file popup.js
+ * @description This file contains the JavaScript logic for the popup interface of the YouTube Ad Muter Chrome extension.
+ * It handles the retrieval and display of ad mute statistics, user interactions with the popup elements, and the storage
+ * of user preferences in Chrome's local storage. The main functionalities include updating the total count of ad mutes,
+ * adding event listeners to buttons, and managing checkbox state changes.
+ * @author Genesis Font <purewebdev@gmail.com>
+ */
+
 // Function to retrieve and display the total count of ad mutes
 function updateTotalCount() {
     chrome.storage.local.get(['adMuteData'], function (result) {

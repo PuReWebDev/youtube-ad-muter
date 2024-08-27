@@ -1,9 +1,18 @@
 /**
  * @file content.js
- * @description Content script to detect YouTube ads and mute/unmute the video accordingly.
+ * @description Content script to detect YouTube ads and mute/unmute the video accordingly. It also handles additional functionalities such as hiding distracting ads, skipping ads, and auto-liking videos at the end.
  * @example This script is automatically injected into YouTube pages by the Chrome extension.
  * @returns {void} This script does not return any value.
- * @author Genesis Font <purewebdev@gmail.com>
+ * 
+ * Main functionalities include:
+ * - Checking for ad elements and muting/unmuting the video (`checkForAds`)
+ * - Storing ad mute information (`storeAdMuteInfo`)
+ * - Taking a screenshot (`takeScreenshot`)
+ * - Hiding distracting ads (`hideDistractingAds`)
+ * - Skipping ads when the option is available (`skipAd`)
+ * - Auto-liking the video at the end (`autoLikeVideo`)
+ * 
+ * @autor Genesis Font <purewebdev@gmail.com>
  */
 
 /**

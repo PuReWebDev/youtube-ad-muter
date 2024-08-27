@@ -1,9 +1,18 @@
 /**
  * @file content.js
- * @description Content script to detect YouTube ads and mute/unmute the video accordingly.
+ * @description Content script to detect YouTube ads and mute/unmute the video accordingly. It also handles additional functionalities such as hiding distracting ads, skipping ads, and auto-liking videos at the end.
  * @example This script is automatically injected into YouTube pages by the Chrome extension.
  * @returns {void} This script does not return any value.
- * @author Genesis Font <purewebdev@gmail.com>
+ * 
+ * Main functionalities include:
+ * - Checking for ad elements and muting/unmuting the video (`checkForAds`)
+ * - Storing ad mute information (`storeAdMuteInfo`)
+ * - Taking a screenshot (`takeScreenshot`)
+ * - Hiding distracting ads (`hideDistractingAds`)
+ * - Skipping ads when the option is available (`skipAd`)
+ * - Auto-liking the video at the end (`autoLikeVideo`)
+ * 
+ * @autor Genesis Font <purewebdev@gmail.com>
  */
 
 /**
@@ -28,6 +37,16 @@ function checkForAds() {
                 if (video) {
                     video.muted = true;
                     storeAdMuteInfo();
+
+                    // Call the function to take a screenshot after storing ad mute info
+                    // Request the background script to take a screenshot
+                    chrome.runtime.sendMessage({ action: 'takeScreenshot' }, function (response) {
+                        if (response && response.success) {
+                            console.log('Screenshot request successful.');
+                        } else {
+                            console.error('Screenshot request failed.');
+                        }
+                    });
                 }
             } else {
                 // Unmute the video if no ad is playing
@@ -62,6 +81,7 @@ function checkForAds() {
             }
 
             hideClarifyBox();
+            hideInfoPanelContent();
             enableDownload(); // Call the new method to enable download
 
             // conditionally call likeVideoIfEnding
@@ -99,6 +119,8 @@ function hideImageAds() {
             // 'ytd-popup-container',
             'mealbar-promo-renderer',
             'yt-mealbar-promo-renderer',
+            'YtwTopBannerImageTextIconButtonedLayoutViewModelHost',
+            'YtwTopBannerImageTextIconButtonedLayoutViewModelHostBannerImage',
             // Add other known image advertisement classes here
         ];
 
@@ -166,6 +188,20 @@ function hideClarifyBox() {
         }
     } catch (error) {
         console.error('Error in hideClarifyBox:', error);
+    }
+}
+
+/**
+ * Function to hide the ytd-info-panel-content-renderer element if it exists
+ */
+function hideInfoPanelContent() {
+    try {
+        const infoPanelContent = document.querySelector('ytd-info-panel-content-renderer');
+        if (infoPanelContent) {
+            infoPanelContent.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error in hideInfoPanelContent:', error);
     }
 }
 
@@ -252,4 +288,50 @@ function removeFromWatchLaterIfEnding() {
     } catch (error) {
         console.error('Error in removeFromWatchLaterIfEnding:', error);
     }
+}
+
+// Function to take a screenshot of the current tab
+function takeScreenshot() {
+    chrome.tabs.captureVisibleTab(null, { format: 'png' }, function (dataUrl) {
+        if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message);
+            return;
+        }
+
+        // Store the screenshot in local storage
+        chrome.storage.local.set({ lastScreenshot: dataUrl }, function () {
+            console.log('Screenshot saved.');
+        });
+    });
+}
+
+/**
+ * Function to auto-subscribe to the channel
+ * @returns {void}
+ */
+function autoSubscribe() {
+    chrome.storage.local.get(['autoSubscribe'], function (result) {
+        const autoSubscribe = result.autoSubscribe || false;
+        if (autoSubscribe) {
+            const video = document.querySelector('video');
+            if (video) {
+                let hasSubscribed = false;
+
+                video.addEventListener('timeupdate', function () {
+                    const remainingTime = video.duration - video.currentTime;
+                    if (remainingTime <= 10 && !hasSubscribed) {
+                        const subscribeButton = document.querySelector('ytd-subscribe-button-renderer button');
+                        const channelNameElement = document.querySelector('#channel-name .yt-simple-endpoint');
+                        const channelName = channelNameElement ? channelNameElement.innerText : 'Unknown Channel';
+
+                        if (subscribeButton && subscribeButton.innerText.toLowerCase().includes('subscribe')) {
+                            subscribeButton.click();
+                            hasSubscribed = true;
+                            console.log(`User has been auto-subscribed to the channel: ${channelName}`);
+                        }
+                    }
+                });
+            }
+        }
+    });
 }

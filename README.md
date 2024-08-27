@@ -16,6 +16,9 @@ YouTube Ad Muter: The ultimate sidekick for your YouTube binge sessions. This Ch
 - Keeps the YouTube algorithm happy – no ad blocking, just smooth sailing
 - Premium vibes without the premium price tag – open-source ftw!
 - The only extension that's cracked the YouTube code – helping creators go viral while you binge in peace
+- Sneak Peek at the Silenced: Our extension just leveled up, fam! Now it's not just muting ads, it's serving up the tea on what you missed. Every time it drops the mute hammer on an ad, it snaps a pic faster than you can say "screenshot". Head to the all-new reporting zone to peep the gallery of cringe we've saved your ears from. It's like a museum of "almost gotchas" - you get to see all the ads that tried to crash your vibe, but couldn't. Talk about receipts! Now you can literally see how much peace and quiet we're serving up. It's not just ad muting anymore, it's a whole silent disco up in here!
+<img src="images/reporting-screenshot.png" alt="Reporting Feature Screenshot" width="400px">
+- Auto-Sub Swag: Never ghost your fave creators again! We've added a feature that's slicker than your Instagram feed. Hit that magic button and boom - you're auto-subscribed faster than you can double-tap a thirst trap. It's like having a hype manager for your YouTube game. No more "oops, forgot to sub" moments. You're out here spreading love to content creators like it's your job. It's not just supporting, it's straight-up stanning without lifting a finger. Keep your subscription list fresher than your playlist and never miss a drop from your squad. It's the set-it-and-forget-it of the YouTube world, fam. Show love, stay connected, and keep your feed poppin' with zero effort. That's what we call big brain energy!
 
 
 ## Installation
@@ -23,25 +26,27 @@ YouTube Ad Muter: The ultimate sidekick for your YouTube binge sessions. This Ch
 1. **Clone the repository:**
 	```sh
 	git clone https://github.com/purewebdev/youtube-ad-muter.git
-	cd youtube-ad-muter
 	```
 
 2. **Load the extension in Chrome:**
 	1. Open Chrome and navigate to `chrome://extensions/`.
 	2. Enable "Developer mode" by clicking the toggle switch in the top right corner.
+
+	<img src="images/load-extensions.png" alt="Enable Developer Mode and Load Unpacked extensions">
+
 	3. Click the "Load unpacked" button and select the directory where you cloned the repository.
 
 ## Usage
 
-1. Open YouTube in your Chrome browser.
-2. The extension will based on your preferences automatically mute ads and skip them when possible.
-3. You can configure the extension using the following checkboxes in the popup:
-    - **Mute Ads Enable:** When checked, the extension will mute ads automatically.
-    - **Hide Distracting Advertisements:** When checked, the extension will hide distracting image advertisements.
-    - **Skip Ad When Option is Given:** When checked, the extension will automatically click the skip button when it appears.
-    - **Auto-Like At The End of Video:** When checked, the extension will automatically like the video at the end.
-    - **Add to Watch Later Queue:** Automatically adds the current video to the Watch Later queue after it plays for 10 seconds.
-    - **Remove from Watch Later Queue:** Automatically removes the current video from the Watch Later queue if it has less than 10 seconds remaining.
+1. Fire up YouTube in your Chrome browser.
+2. Sit back and relax as the extension automatically mutes and skips ads based on your preferences.
+3. Customize your experience with these options in the popup:
+    - **Mute Ads Enable:** Automatically mutes those annoying ads.
+    - **Hide Distracting Advertisements:** Keeps your screen clutter-free by hiding distracting image ads.
+    - **Skip Ad When Option is Given:** Automatically skips ads when the skip button appears.
+    - **Auto-Like At The End of Video:** Show some love by auto-liking videos at the end.
+    - **Add to Watch Later Queue:** Automatically adds videos to your Watch Later queue after 10 seconds of playtime.
+    - **Remove from Watch Later Queue:** Automatically removes videos from your Watch Later queue if they have less than 10 seconds remaining.
 
 ## Contributing
 

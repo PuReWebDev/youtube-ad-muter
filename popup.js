@@ -1,3 +1,18 @@
+/**
+ * @file popup.js
+ * @description This file contains the JavaScript logic for the popup interface of the YouTube Ad Muter Chrome extension.
+ * It handles the retrieval and display of ad mute statistics, user interactions with the popup elements, and the storage
+ * of user preferences in Chrome's local storage. The main functionalities include:
+ * - Updating the total count of ad mutes (`updateTotalCount`)
+ * - Adding event listeners to buttons (`addLoadDataButtonListener`)
+ * - Managing checkbox state changes
+ * - Displaying the last screenshot taken (`updateLastScreenshot`)
+ * - Handling the download of the last screenshot (`updateLastScreenshot`)
+ * - Opening the screenshot in a modal (`addScreenshotImageClickListener`)
+ * 
+ * @autor Genesis Font <purewebdev@gmail.com>
+ */
+
 // Function to retrieve and display the total count of ad mutes
 function updateTotalCount() {
     chrome.storage.local.get(['adMuteData'], function (result) {
@@ -24,6 +39,7 @@ function addLoadDataButtonListener() {
     if (loadDataButton) {
         loadDataButton.addEventListener('click', function () {
             updateTotalCount();
+            updateLastScreenshot();
         });
     }
 }
@@ -49,6 +65,36 @@ function initializeCheckboxes() {
     });
 }
 
+/// Function to update the last screenshot
+function updateLastScreenshot() {
+    chrome.storage.local.get(['lastScreenshot'], function (result) {
+        const screenshotPanel = document.getElementById('screenshotPanel');
+        const screenshotImage = document.getElementById('screenshotImage');
+        const downloadScreenshotLink = document.getElementById('downloadScreenshotLink');
+        if (result.lastScreenshot) {
+            screenshotImage.src = result.lastScreenshot;
+            downloadScreenshotLink.href = result.lastScreenshot;
+            downloadScreenshotLink.style.display = 'block';
+            screenshotPanel.style.display = 'block';
+        } else {
+            downloadScreenshotLink.style.display = 'none';
+            screenshotPanel.style.display = 'none';
+        }
+    });
+}
+
+// Function to initialize the auto-subscribe checkbox
+function initializeAutoSubscribeCheckbox() {
+    const autoSubscribeCheckbox = document.getElementById('autoSubscribeCheckbox');
+    chrome.storage.local.get(['autoSubscribe'], function (result) {
+        autoSubscribeCheckbox.checked = result.autoSubscribe || false;
+    });
+
+    autoSubscribeCheckbox.addEventListener('change', function () {
+        chrome.storage.local.set({ autoSubscribe: this.checked });
+    });
+}
+
 // Call the function to add the event listener
 addLoadDataButtonListener();
 
@@ -56,4 +102,17 @@ addLoadDataButtonListener();
 document.addEventListener('DOMContentLoaded', function () {
     updateTotalCount();
     initializeCheckboxes();
+    updateLastScreenshot();
+    initializeAutoSubscribeCheckbox(); // Initialize the auto-subscribe checkbox
 });
+
+// Add event listener to the screenshot image to open it in a modal
+document.getElementById('screenshotImage').addEventListener('click', function () {
+    const modalScreenshotImage = document.getElementById('modalScreenshotImage');
+    modalScreenshotImage.src = this.src;
+    const screenshotModal = new bootstrap.Modal(document.getElementById('screenshotModal'));
+    screenshotModal.show();
+});
+
+// Retrieve and display the last screenshot on load
+updateLastScreenshot();

@@ -84,6 +84,37 @@
               </div>
             </div>
 
+            <div id="screenshotPanel" class="panel panel-default" style="display: none;">
+              <div class="panel-heading">Last Screenshot</div>
+              <div class="panel-body">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">Screenshot</h5>
+                    <p>Screenshot of Muted Advertisement:</p>
+                    <img id="screenshotImage" src="#" alt="Last Screenshot"
+                      style="width: 100%; height: auto; cursor: pointer;">
+                    <a id="downloadScreenshotLink" href="#" download="screenshot.png" style="display: none;">Download Screenshot</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bootstrap Modal -->
+            <div class="modal fade" id="screenshotModal" tabindex="-1" aria-labelledby="screenshotModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="screenshotModalLabel">Screenshot</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <img id="modalScreenshotImage" src="#" alt="Screenshot" style="width: 100%; height: auto;">
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="card">
               <div class="card-body">
                 <div class="panel panel-default">
@@ -102,18 +133,7 @@
               </div>
             </div>
 
-            <div id="screenshotPanel" class="panel panel-default" style="display: none;">
-              <div class="panel-heading">Last Screenshot</div>
-              <div class="panel-body">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title">Screenshot</h5>
-                    <p>Below is the last screenshot taken:</p>
-                    <img id="screenshotImage" src="#" alt="Last Screenshot" style="width: 100%; height: auto;">
-                  </div>
-                </div>
-              </div>
-            </div>
+
 
             <div class="card">
               <div class="card-body">

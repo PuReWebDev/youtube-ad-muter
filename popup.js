@@ -59,15 +59,19 @@ function initializeCheckboxes() {
     });
 }
 
-// Function to update the last screenshot
+/// Function to update the last screenshot
 function updateLastScreenshot() {
     chrome.storage.local.get(['lastScreenshot'], function (result) {
         const screenshotPanel = document.getElementById('screenshotPanel');
         const screenshotImage = document.getElementById('screenshotImage');
+        const downloadScreenshotLink = document.getElementById('downloadScreenshotLink');
         if (result.lastScreenshot) {
             screenshotImage.src = result.lastScreenshot;
+            downloadScreenshotLink.href = result.lastScreenshot;
+            downloadScreenshotLink.style.display = 'block';
             screenshotPanel.style.display = 'block';
         } else {
+            downloadScreenshotLink.style.display = 'none';
             screenshotPanel.style.display = 'none';
         }
     });
@@ -81,6 +85,14 @@ document.addEventListener('DOMContentLoaded', function () {
     updateTotalCount();
     initializeCheckboxes();
     updateLastScreenshot();
+});
+
+// Add event listener to the screenshot image to open it in a modal
+document.getElementById('screenshotImage').addEventListener('click', function () {
+    const modalScreenshotImage = document.getElementById('modalScreenshotImage');
+    modalScreenshotImage.src = this.src;
+    const screenshotModal = new bootstrap.Modal(document.getElementById('screenshotModal'));
+    screenshotModal.show();
 });
 
 // Retrieve and display the last screenshot on load

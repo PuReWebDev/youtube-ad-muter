@@ -72,6 +72,7 @@ function checkForAds() {
             }
 
             hideClarifyBox();
+            hideInfoPanelContent();
             enableDownload(); // Call the new method to enable download
 
             // conditionally call likeVideoIfEnding
@@ -178,6 +179,20 @@ function hideClarifyBox() {
         }
     } catch (error) {
         console.error('Error in hideClarifyBox:', error);
+    }
+}
+
+/**
+ * Function to hide the ytd-info-panel-content-renderer element if it exists
+ */
+function hideInfoPanelContent() {
+    try {
+        const infoPanelContent = document.querySelector('ytd-info-panel-content-renderer');
+        if (infoPanelContent) {
+            infoPanelContent.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Error in hideInfoPanelContent:', error);
     }
 }
 

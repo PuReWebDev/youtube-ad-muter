@@ -8,9 +8,11 @@
     "tabs",
     "storage",
     "activeTab",
-    "<all_urls>",
     "declarativeContent",
     "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ],
   "background": {
     "service_worker": "background.js"
@@ -32,8 +34,12 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.youtube.com/*"],
-      "js": ["content.js"]
+      "matches": [
+        "*://*.youtube.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
     }
   ],
   "web_accessible_resources": [
@@ -44,7 +50,9 @@
         "libs/react.development.js",
         "libs/react-dom.development.js"
       ],
-      "matches": ["<all_urls>"]
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "homepage_url": "https://github.com/PuReWebDev/youtube-ad-muter"

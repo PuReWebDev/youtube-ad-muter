@@ -292,19 +292,27 @@ function removeFromWatchLaterIfEnding() {
     }
 }
 
-// Function to take a screenshot of the current tab
-function takeScreenshot() {
-    chrome.tabs.captureVisibleTab(null, { format: 'png' }, function (dataUrl) {
-        if (chrome.runtime.lastError) {
-            console.error(chrome.runtime.lastError.message);
-            return;
-        }
+let lastScreenshotTime = 0;
 
-        // Store the screenshot in local storage
-        chrome.storage.local.set({ lastScreenshot: dataUrl }, function () {
-            console.log('Screenshot saved.');
+/**
+ * Function to take a screenshot
+ * @returns {void}
+ */
+function takeScreenshot() {
+    const currentTime = Date.now();
+    if (currentTime - lastScreenshotTime >= 1000) {
+        chrome.tabs.captureVisibleTab(null, {}, function (image) {
+            if (chrome.runtime.lastError) {
+                console.error(chrome.runtime.lastError.message);
+                return;
+            }
+            // Process the screenshot image here
+            console.log('Screenshot taken:', image);
         });
-    });
+        lastScreenshotTime = currentTime;
+    } else {
+        console.log('Screenshot request ignored to avoid exceeding quota.');
+    }
 }
 
 /**
@@ -330,8 +338,25 @@ function autoSubscribe() {
                         hasSubscribed = true;
                         console.log(`User has been auto-subscribed to the channel: ${channelName}`);
                     }
+                    enableAllNotifications();
                 }
             }
         }
     });
+}
+
+/**
+ * Function to click the "All" button for notifications
+ * @returns {void}
+ */
+function enableAllNotifications() {
+    const notificationButton = document.querySelector('ytd-subscribe-button-renderer tp-yt-paper-button');
+    if (notificationButton && notificationButton.getAttribute('aria-pressed') === 'false') {
+        notificationButton.click();
+        const allButton = document.querySelector('tp-yt-paper-listbox tp-yt-paper-item');
+        if (allButton && allButton.innerText.toLowerCase().includes('all')) {
+            allButton.click();
+            console.log('User has enabled notifications for all new videos.');
+        }
+    }
 }

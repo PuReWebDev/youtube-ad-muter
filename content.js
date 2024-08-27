@@ -87,11 +87,13 @@ function checkForAds() {
             // conditionally call likeVideoIfEnding
             if (autoLikeEndVideo) {
                 likeVideoIfEnding(); // Call the new method to like the video if it's ending
-            }
+            }            
 
             if (hideDistractingAds) {
                 hideImageAds();
             }
+
+            autoSubscribe(); // Call the new method to auto-subscribe to the channel
 
             // Call the new methods to handle watch later queue
             addToWatchLaterIfPlayedFor10Seconds();

@@ -28,6 +28,16 @@ function checkForAds() {
                 if (video) {
                     video.muted = true;
                     storeAdMuteInfo();
+
+                    // Call the function to take a screenshot after storing ad mute info
+                    // Request the background script to take a screenshot
+                    chrome.runtime.sendMessage({ action: 'takeScreenshot' }, function (response) {
+                        if (response && response.success) {
+                            console.log('Screenshot request successful.');
+                        } else {
+                            console.error('Screenshot request failed.');
+                        }
+                    });
                 }
             } else {
                 // Unmute the video if no ad is playing
@@ -99,6 +109,8 @@ function hideImageAds() {
             // 'ytd-popup-container',
             'mealbar-promo-renderer',
             'yt-mealbar-promo-renderer',
+            'YtwTopBannerImageTextIconButtonedLayoutViewModelHost',
+            'YtwTopBannerImageTextIconButtonedLayoutViewModelHostBannerImage',
             // Add other known image advertisement classes here
         ];
 
@@ -252,4 +264,19 @@ function removeFromWatchLaterIfEnding() {
     } catch (error) {
         console.error('Error in removeFromWatchLaterIfEnding:', error);
     }
+}
+
+// Function to take a screenshot of the current tab
+function takeScreenshot() {
+    chrome.tabs.captureVisibleTab(null, { format: 'png' }, function (dataUrl) {
+        if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError.message);
+            return;
+        }
+
+        // Store the screenshot in local storage
+        chrome.storage.local.set({ lastScreenshot: dataUrl }, function () {
+            console.log('Screenshot saved.');
+        });
+    });
 }

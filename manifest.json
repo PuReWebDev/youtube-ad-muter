@@ -5,8 +5,10 @@
   "description": "Automatically mutes YouTube ads and skips them when possible.",
   "author": "purewebdev@gmail.com",
   "permissions": [
+    "tabs",
     "storage",
     "activeTab",
+    "<all_urls>",
     "declarativeContent",
     "scripting"
   ],

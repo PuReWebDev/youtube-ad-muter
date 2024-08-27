@@ -33,6 +33,7 @@ function addLoadDataButtonListener() {
     if (loadDataButton) {
         loadDataButton.addEventListener('click', function () {
             updateTotalCount();
+            updateLastScreenshot();
         });
     }
 }
@@ -58,6 +59,20 @@ function initializeCheckboxes() {
     });
 }
 
+// Function to update the last screenshot
+function updateLastScreenshot() {
+    chrome.storage.local.get(['lastScreenshot'], function (result) {
+        const screenshotPanel = document.getElementById('screenshotPanel');
+        const screenshotImage = document.getElementById('screenshotImage');
+        if (result.lastScreenshot) {
+            screenshotImage.src = result.lastScreenshot;
+            screenshotPanel.style.display = 'block';
+        } else {
+            screenshotPanel.style.display = 'none';
+        }
+    });
+}
+
 // Call the function to add the event listener
 addLoadDataButtonListener();
 
@@ -65,4 +80,8 @@ addLoadDataButtonListener();
 document.addEventListener('DOMContentLoaded', function () {
     updateTotalCount();
     initializeCheckboxes();
+    updateLastScreenshot();
 });
+
+// Retrieve and display the last screenshot on load
+updateLastScreenshot();

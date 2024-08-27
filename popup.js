@@ -83,6 +83,18 @@ function updateLastScreenshot() {
     });
 }
 
+// Function to initialize the auto-subscribe checkbox
+function initializeAutoSubscribeCheckbox() {
+    const autoSubscribeCheckbox = document.getElementById('autoSubscribeCheckbox');
+    chrome.storage.local.get(['autoSubscribe'], function (result) {
+        autoSubscribeCheckbox.checked = result.autoSubscribe || false;
+    });
+
+    autoSubscribeCheckbox.addEventListener('change', function () {
+        chrome.storage.local.set({ autoSubscribe: this.checked });
+    });
+}
+
 // Call the function to add the event listener
 addLoadDataButtonListener();
 
@@ -91,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
     updateTotalCount();
     initializeCheckboxes();
     updateLastScreenshot();
+    initializeAutoSubscribeCheckbox(); // Initialize the auto-subscribe checkbox
 });
 
 // Add event listener to the screenshot image to open it in a modal

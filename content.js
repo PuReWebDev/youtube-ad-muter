@@ -304,3 +304,34 @@ function takeScreenshot() {
         });
     });
 }
+
+/**
+ * Function to auto-subscribe to the channel
+ * @returns {void}
+ */
+function autoSubscribe() {
+    chrome.storage.local.get(['autoSubscribe'], function (result) {
+        const autoSubscribe = result.autoSubscribe || false;
+        if (autoSubscribe) {
+            const video = document.querySelector('video');
+            if (video) {
+                let hasSubscribed = false;
+
+                video.addEventListener('timeupdate', function () {
+                    const remainingTime = video.duration - video.currentTime;
+                    if (remainingTime <= 10 && !hasSubscribed) {
+                        const subscribeButton = document.querySelector('ytd-subscribe-button-renderer button');
+                        const channelNameElement = document.querySelector('#channel-name .yt-simple-endpoint');
+                        const channelName = channelNameElement ? channelNameElement.innerText : 'Unknown Channel';
+
+                        if (subscribeButton && subscribeButton.innerText.toLowerCase().includes('subscribe')) {
+                            subscribeButton.click();
+                            hasSubscribed = true;
+                            console.log(`User has been auto-subscribed to the channel: ${channelName}`);
+                        }
+                    }
+                });
+            }
+        }
+    });
+}

@@ -16,6 +16,8 @@ YouTube Ad Muter: The ultimate sidekick for your YouTube binge sessions. This Ch
 - Keeps the YouTube algorithm happy – no ad blocking, just smooth sailing
 - Premium vibes without the premium price tag – open-source ftw!
 - The only extension that's cracked the YouTube code – helping creators go viral while you binge in peace
+- Sneak Peek at the Silenced: Our extension just leveled up, fam! Now it's not just muting ads, it's serving up the tea on what you missed. Every time it drops the mute hammer on an ad, it snaps a pic faster than you can say "screenshot". Head to the all-new reporting zone to peep the gallery of cringe we've saved your ears from. It's like a museum of "almost gotchas" - you get to see all the ads that tried to crash your vibe, but couldn't. Talk about receipts! Now you can literally see how much peace and quiet we're serving up. It's not just ad muting anymore, it's a whole silent disco up in here!
+<img src="images/reporting-screenshot.png" alt="Reporting Feature Screenshot" width="400px">
 
 
 ## Installation

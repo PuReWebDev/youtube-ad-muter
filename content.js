@@ -93,6 +93,8 @@ function checkForAds() {
                 hideImageAds();
             }
 
+            autoSubscribe(); // Call the new method to auto-subscribe to the channel
+
             // Call the new methods to handle watch later queue
             addToWatchLaterIfPlayedFor10Seconds();
             removeFromWatchLaterIfEnding();
@@ -317,20 +319,18 @@ function autoSubscribe() {
             if (video) {
                 let hasSubscribed = false;
 
-                video.addEventListener('timeupdate', function () {
-                    const remainingTime = video.duration - video.currentTime;
-                    if (remainingTime <= 10 && !hasSubscribed) {
-                        const subscribeButton = document.querySelector('ytd-subscribe-button-renderer button');
-                        const channelNameElement = document.querySelector('#channel-name .yt-simple-endpoint');
-                        const channelName = channelNameElement ? channelNameElement.innerText : 'Unknown Channel';
+                const remainingTime = video.duration - video.currentTime;
+                if (remainingTime <= 10 && !hasSubscribed) {
+                    const subscribeButton = document.querySelector('ytd-subscribe-button-renderer button');
+                    const channelNameElement = document.querySelector('#channel-name .yt-simple-endpoint');
+                    const channelName = channelNameElement ? channelNameElement.innerText : 'Unknown Channel';
 
-                        if (subscribeButton && subscribeButton.innerText.toLowerCase().includes('subscribe')) {
-                            subscribeButton.click();
-                            hasSubscribed = true;
-                            console.log(`User has been auto-subscribed to the channel: ${channelName}`);
-                        }
+                    if (subscribeButton && subscribeButton.innerText.toLowerCase().includes('subscribe')) {
+                        subscribeButton.click();
+                        hasSubscribed = true;
+                        console.log(`User has been auto-subscribed to the channel: ${channelName}`);
                     }
-                });
+                }
             }
         }
     });
